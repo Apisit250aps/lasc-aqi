@@ -12,6 +12,7 @@ import { authenticate } from './middlewares/authenticated'
 import createDevice from './controllers/device/createDevice'
 import getDevice from './controllers/device/getDevice';
 import morgan from 'morgan';
+import recordAir from './controllers/air/recordAir';
 // Initialize express app
 const app = express()
 
@@ -37,6 +38,8 @@ app.post('/api/auth/login', login)
 // Device API
 app.get('/api/device', getDevice)
 app.post('/api/device', createDevice)
+
+app.post('/api/air/record/:id', recordAir)
 // Start server
 app.listen(config.port, async () => {
   await connectDB()
