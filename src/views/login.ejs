@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+  <div class="hero bg-base-200 min-h-screen" id="app">
+    <div class="hero-content flex-col lg:flex-row-reverse">
+      <div class="text-center lg:text-left">
+        <h1 class="text-5xl font-bold">Login now!</h1>
+        <p class="py-6">
+          Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
+          quasi. In deleniti eaque aut repudiandae et a id nisi.
+        </p>
+      </div>
+      <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+        <form class="card-body" @submit="login">
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Name</span>
+            </label>
+            <input type="text" v-model="name" placeholder="name" class="input input-bordered" required />
+          </div>
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Password</span>
+            </label>
+            <input type="password" v-model="password" placeholder="password" class="input input-bordered" required />
+
+          </div>
+          <div class="form-control mt-6">
+            <button type="submit" class="btn btn-primary">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    const { createApp } = Vue;
+    const app = createApp({
+      data() {
+        return {
+          name: '',
+          password: ''
+        };
+      },
+      methods: {
+        async login(e) {
+          e.preventDefault();
+
+          try {
+            const response = await axios.post('/api/auth/login', {
+              name: this.name,
+              password: this.password
+            });
+           
+            Swal.fire({
+              title: 'Success!',
+              text: response.data.message,
+              icon: 'success',
+            })
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      }
+    });
+    app.mount('#app')
+  </script>
+</body>
+
+</html>

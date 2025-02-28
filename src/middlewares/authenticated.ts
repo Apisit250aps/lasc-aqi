@@ -1,22 +1,23 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
-import config from '../config';
+import config from '../config'
 
 export const authenticate = (
   req: Request,
   res: Response,
   next: NextFunction
 ): void => {
-  const token = req.header('Authorization')?.replace('Bearer ', '')
+  const token = req.cookies.token // ดึง token จาก Cookie
+
   if (!token) {
-    res.status(401).json({ error: 'No token provided' })
+    res.status(401).json({ message: 'Unauthorized: No token provided' })
   }
+
   try {
-    // Verify the token
-    const decoded = jwt.verify(token as string, config.jwtSecret as string)
-    req.user = decoded // Attach the decoded payload to the request object
-    next() // Proceed to the next middleware or route
-  } catch (error) {
-    res.status(401).json({ error: 'Invalid token' })
+    const decoded = jwt.verify(token, config.jwtSecret as string)
+    ;(req as any).user = decoded // เก็บข้อมูลผู้ใช้ไว้ใน req
+    next() // ดำเนินการต่อไปยัง route ถัดไป
+  } catch {
+    res.status(403).json({ message: 'Forbidden: Invalid token' })
   }
 }

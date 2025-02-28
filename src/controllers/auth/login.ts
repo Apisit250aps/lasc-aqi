@@ -30,12 +30,15 @@ export default async function login(
     const token = jwt.sign(user, config.jwtSecret as string, {
       expiresIn: '1d'
     })
-    res.json({
-      success: true,
-      message: 'Logged in successfully',
-      data: {
-        token
-      }
-    })
+    res
+      .cookie('token', token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'strict'
+      })
+      .json({
+        success: true,
+        message: 'Logged in successfully'
+      })
   } catch (error) {}
 }

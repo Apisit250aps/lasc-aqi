@@ -1,3 +1,5 @@
+import { IUser } from "../models/users";
+
 export interface IResponse<T = unknown> {
   success: boolean
   message: string
@@ -14,7 +16,7 @@ export interface IPagination {
 declare global {
   namespace Express {
     interface Request {
-      user?: User;  // Adding the user property to the Request interface
+      user?: IUser;  // Adding the user property to the Request interface
       headers:{
         authorization?: string;  // Adding the authorization header to the Request interface
       }
