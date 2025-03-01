@@ -39,8 +39,8 @@ const Home: React.FC = () => {
   const [historicalData, setHistoricalData] = useState<AQIRecord[]>([]);
   const [activeTab, setActiveTab] = useState<'pm' | 'temp'>('pm');
   
-  const pmChartRef = useRef<ChartJS>(null);
-  const thChartRef = useRef<ChartJS>(null);
+  const pmChartRef = useRef<ChartJS<'line'>>(null);
+  const thChartRef = useRef<ChartJS<'line'>>(null);
 
   // Calculate AQI from PM2.5 value
   const calculateAQI = (pm25: number = currentData.pm25): number => {
