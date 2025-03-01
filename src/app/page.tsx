@@ -176,6 +176,7 @@ const Home: React.FC = () => {
 
   // Initialize on component mount
   useEffect(() => {
+    setDeviceId('AQM-8742');
     loadDevices();
     setHistoricalData(generateMockData());
   }, []);
