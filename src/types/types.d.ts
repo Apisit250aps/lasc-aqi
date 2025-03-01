@@ -4,6 +4,13 @@ export interface IResponse<T = unknown> {
   data?: T
 }
 
+export interface IPagination {
+  page: number
+  limit: number
+  totalDocs: number
+  totalPages: number
+}
+
 declare module 'next-auth' {
   /**
    * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
@@ -29,7 +36,7 @@ declare module 'next-auth' {
   interface User {
     id: string
     name: string
-    role:string
+    role: string
   }
   // /**
   //  * The shape of the account object returned in the OAuth providers' `account` callback,
