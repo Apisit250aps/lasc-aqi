@@ -10,7 +10,8 @@ import {
   Tooltip,
   Legend,
   ChartData,
-  ChartOptions
+  ChartOptions,
+  Filler
 } from 'chart.js'
 import { Line } from 'react-chartjs-2'
 import Swal from 'sweetalert2'
@@ -21,6 +22,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  Filler,
   Title,
   Tooltip,
   Legend
@@ -344,8 +346,8 @@ const Home: React.FC = () => {
   const aqiStatusBadgeClass = getAQIBadgeClass(aqi)
 
   return (
-    <div className="min-h-screen bg-base-300 font-sans">
-      <div className="navbar bg-base-100 shadow-lg mb-4">
+    <div className="min-h-screen bg-base-100 font-sans">
+      <div className="navbar bg-base-100 mb-4">
         <div className="container mx-auto px-4">
           <div className="flex-1">
             <h1 className="text-2xl font-bold flex items-center">
@@ -373,7 +375,7 @@ const Home: React.FC = () => {
         {/* Main Stats */}
         <div className="flex flex-col space-y-4 lg:flex-row lg:space-y-0 lg:space-x-4 mb-6">
           {/* Current AQI */}
-          <div className="card w-full lg:w-1/3 glass shadow-xl overflow-hidden">
+          <div className="card w-full lg:w-1/3 glass  overflow-hidden">
             <div
               className={`absolute inset-0 bg-gradient-to-br opacity-30 ${
                 aqiLevel === 'Good'
@@ -417,7 +419,7 @@ const Home: React.FC = () => {
           </div>
 
           {/* Charts */}
-          <div className="card w-full lg:w-2/3 bg-base-100 shadow-xl">
+          <div className="card w-full lg:w-2/3 bg-base-100 ">
             <div className="card-body p-6">
               <div className="tabs tabs-boxed mb-4">
                 <a
@@ -457,7 +459,7 @@ const Home: React.FC = () => {
 
         {/* Current Readings */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-          <div className="card bg-base-100 shadow-xl">
+          <div className="card bg-base-100 ">
             <div className="card-body p-4 text-center">
               <div className="stat-title">Temperature</div>
               <div className="flex items-center justify-center my-2">
@@ -468,7 +470,7 @@ const Home: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="card bg-base-100 shadow-xl">
+          <div className="card bg-base-100 ">
             <div className="card-body p-4 text-center">
               <div className="stat-title">Humidity</div>
               <div className="flex items-center justify-center my-2">
@@ -477,7 +479,7 @@ const Home: React.FC = () => {
               <div className="stat-value text-2xl">{currentData.humidity}%</div>
             </div>
           </div>
-          <div className="card bg-base-100 shadow-xl">
+          <div className="card bg-base-100 ">
             <div className="card-body p-4 text-center">
               <div className="stat-title">PM 1.0</div>
               <div className="flex items-center justify-center my-2">
@@ -487,7 +489,7 @@ const Home: React.FC = () => {
               <div className="stat-desc">µg/m³</div>
             </div>
           </div>
-          <div className="card bg-base-100 shadow-xl">
+          <div className="card bg-base-100 ">
             <div className="card-body p-4 text-center">
               <div className="stat-title">PM 2.5</div>
               <div className="flex items-center justify-center my-2">
@@ -497,7 +499,7 @@ const Home: React.FC = () => {
               <div className="stat-desc">µg/m³</div>
             </div>
           </div>
-          <div className="card bg-base-100 shadow-xl">
+          <div className="card bg-base-100 ">
             <div className="card-body p-4 text-center">
               <div className="stat-title">PM 10</div>
               <div className="flex items-center justify-center my-2">
@@ -510,16 +512,16 @@ const Home: React.FC = () => {
         </div>
 
         {/* Historical Data */}
-        <div className="card bg-base-100 shadow-xl overflow-hidden">
+        <div className="card bg-base-100  overflow-hidden">
           <div className="card-body p-0">
-            <div className="bg-base-200 p-4">
+            <div className="bg-base-100 p-4">
               <h2 className="card-title text-base-content flex items-center">
                 <i className="bx bx-history text-2xl mr-2"></i>
                 Historical Data
               </h2>
             </div>
             <div className="overflow-x-auto">
-              <table className="table table-zebra w-full">
+              <table className="table w-full">
                 <thead>
                   <tr>
                     <th>Time</th>
@@ -535,7 +537,7 @@ const Home: React.FC = () => {
                   {historicalData.map((record, index) => {
                     const recordAqi = calculateAQI(record.pm25)
                     return (
-                      <tr key={index}>
+                      <tr key={index} className='hover:bg-base-200'>
                         <td>{formatDate(record.createdAt)}</td>
                         <td>{record.pm1} µg/m³</td>
                         <td>{record.pm25} µg/m³</td>
