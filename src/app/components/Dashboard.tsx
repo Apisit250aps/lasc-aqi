@@ -50,7 +50,7 @@ const Dashboard: React.FC = () => {
   // State
   const [device, setDevice] = useState<IDevice>({} as IDevice)
   const [devices, setDevices] = useState<IDevice[]>([])
-  const [deviceId, setDeviceId] = useState<string|undefined>()
+  const [deviceId, setDeviceId] = useState<string | undefined>()
   const [airData, setAirData] = useState<AQIRecord[]>([])
   const [activeTab, setActiveTab] = useState<'pm' | 'temp'>('pm')
 
@@ -116,7 +116,7 @@ const Dashboard: React.FC = () => {
   // Format date
   const formatDate = (date: Date | string): string => {
     const d = new Date(date)
-    return `${d.toLocaleDateString()} ${d.getHours()}:${d
+    return `${d.toLocaleDateString('th-TH')} ${d.getHours()}:${d
       .getMinutes()
       .toString()
       .padStart(2, '0')}`
@@ -130,26 +130,27 @@ const Dashboard: React.FC = () => {
 
   // Get current data (most recent record)
   const getCurrentData = (): AQIRecord => {
-    return airData.length > 0 ? airData[0] : {
-      deviceData: { name: 'Loading...' },
-      temperature: 0,
-      humidity: 0,
-      pm1: 0,
-      pm25: 0,
-      pm10: 0,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
+    return airData.length > 0
+      ? airData[0]
+      : {
+          deviceData: { name: 'Loading...' },
+          temperature: 0,
+          humidity: 0,
+          pm1: 0,
+          pm25: 0,
+          pm10: 0,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }
   }
 
   // Refresh data
   const refreshData = async () => {
     try {
-      await loadAirs();
+      await loadAirs()
       console.table(devices)
     } catch (error) {
-      console.error(error);
-    
+      console.error(error)
     }
   }
 
@@ -169,16 +170,17 @@ const Dashboard: React.FC = () => {
   // Load air quality data
   const loadAirs = useCallback(async () => {
     try {
-      if (!deviceId) return;
-      
+      if (!deviceId) return
+
       const response = await axios.get(`/api/air`, {
         params: { device: deviceId }
       })
       // Sort data by createdAt in descending order (newest first)
-      const sortedData = response.data.data.sort((a: AQIRecord, b: AQIRecord) => 
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
-      setAirData(sortedData);
+      const sortedData = response.data.data.sort(
+        (a: AQIRecord, b: AQIRecord) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      )
+      setAirData(sortedData)
     } catch (error) {
       console.error(error)
     }
@@ -188,7 +190,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     loadDevices()
   }, [loadDevices])
-  
+
   // Load air data when deviceId changes
   useEffect(() => {
     if (deviceId) {
@@ -327,15 +329,14 @@ const Dashboard: React.FC = () => {
   }
 
   // Get current data
-  const currentData = getCurrentData();
-  
+  const currentData = getCurrentData()
+
   // Computed values
   const aqi = calculateAQI(currentData.pm25)
   const aqiLevel = getAQILevel(aqi)
   const aqiStatus = getAQIStatus(aqi)
   const aqiColorClass = getAQIColorClass(aqi)
   const aqiStatusBadgeClass = getAQIBadgeClass(aqi)
-
 
   return (
     <div className="card">
@@ -348,7 +349,6 @@ const Dashboard: React.FC = () => {
             </span>
           </h1>
           <div className="flex-none">
-            
             <span className="badge badge-outline">
               {device.location || deviceId}
             </span>
