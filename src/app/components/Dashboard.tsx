@@ -157,6 +157,7 @@ const Dashboard: React.FC = () => {
   const loadDevices = useCallback(async () => {
     try {
       const response = await axios.get('/api/device')
+      console.log(response.data.data)
       setDevices(response.data.data)
       setDeviceId(response.data.data[0]._id)
       setDevice(response.data.data[0])

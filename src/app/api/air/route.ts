@@ -17,6 +17,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
         .find(query)
         .skip((page - 1) * limit)
         .limit(limit)
+        .sort({ createdAt: -1 })
         .toArray(),
       airs.countDocuments(query)
     ])

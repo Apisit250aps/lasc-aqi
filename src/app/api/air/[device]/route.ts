@@ -9,7 +9,6 @@ export async function POST(
   try {
     const { device } = await params
     const data = await req.json()
-    console.log(data, device)
     const deviceData = await devices.findOne({ _id: new ObjectId(device) })
     if (!deviceData) {
       return NextResponse.json(
